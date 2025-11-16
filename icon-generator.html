@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>图标生成器</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 800px;
+      margin: 50px auto;
+      padding: 20px;
+      text-align: center;
+    }
+    
+    h1 {
+      color: #333;
+    }
+    
+    .canvas-container {
+      margin: 30px 0;
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+    
+    .icon-item {
+      text-align: center;
+    }
+    
+    canvas {
+      border: 1px solid #ddd;
+      border-radius: 8px;
+    }
+    
+    button {
+      background: #4CAF50;
+      color: white;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 16px;
+      margin: 10px;
+    }
+    
+    button:hover {
+      background: #45a049;
+    }
+    
+    .info {
+      background: #e7f3ff;
+      padding: 15px;
+      border-radius: 4px;
+      margin: 20px 0;
+      text-align: left;
+    }
+  </style>
+</head>
+<body>
+  <h1>智能文本助手 - 图标生成器</h1>
+  
+  <div class="info">
+    <strong>使用说明：</strong><br>
+    1. 点击下方的"生成图标"按钮<br>
+    2. 右键点击每个图标，选择"图片另存为"<br>
+    3. 将图标保存到插件目录下的icons文件夹中<br>
+    4. 确保文件名分别为：icon16.png、icon48.png、icon128.png
+  </div>
+  
+  <button onclick="generateIcons()">生成图标</button>
+  
+  <div class="canvas-container">
+    <div class="icon-item">
+      <canvas id="icon16" width="16" height="16"></canvas>
+      <p>16x16</p>
+    </div>
+    <div class="icon-item">
+      <canvas id="icon48" width="48" height="48"></canvas>
+      <p>48x48</p>
+    </div>
+    <div class="icon-item">
+      <canvas id="icon128" width="128" height="128"></canvas>
+      <p>128x128</p>
+    </div>
+  </div>
+  
+  <div class="info">
+    <strong>提示：</strong>如果icons文件夹不存在，请手动创建它。
+  </div>
+  
+  <script>
+    function generateIcons() {
+      // 生成 16x16 图标
+      const canvas16 = document.getElementById('icon16');
+      const ctx16 = canvas16.getContext('2d');
+      drawIcon(ctx16, 16);
+      
+      // 生成 48x48 图标
+      const canvas48 = document.getElementById('icon48');
+      const ctx48 = canvas48.getContext('2d');
+      drawIcon(ctx48, 48);
+      
+      // 生成 128x128 图标
+      const canvas128 = document.getElementById('icon128');
+      const ctx128 = canvas128.getContext('2d');
+      drawIcon(ctx128, 128);
+      
+      alert('图标生成完成！\n\n请右键点击每个图标，选择"图片另存为"来保存图标。');
+    }
+    
+    function drawIcon(ctx, size) {
+      // 背景
+      ctx.fillStyle = '#4CAF50';
+      ctx.fillRect(0, 0, size, size);
+      
+      // 绘制简单的"TA"文字（Text Assistant的缩写）
+      ctx.fillStyle = 'white';
+      ctx.font = `bold ${size * 0.4}px Arial`;
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText('TA', size / 2, size / 2);
+      
+      // 添加一个小装饰圆点
+      ctx.fillStyle = '#FFD700';
+      ctx.beginPath();
+      ctx.arc(size * 0.8, size * 0.2, size * 0.1, 0, Math.PI * 2);
+      ctx.fill();
+    }
+  </script>
+</body>
+</html>
+
