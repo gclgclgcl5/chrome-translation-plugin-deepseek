@@ -1,0 +1,1 @@
+# chrome-translation-plugin-deepseek
