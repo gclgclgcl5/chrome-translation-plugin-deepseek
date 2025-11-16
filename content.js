@@ -30,10 +30,10 @@ function createToolbar() {
   langSwitchBtn.innerHTML = '→ EN';
   langSwitchBtn.onclick = toggleTargetLanguage;
   
-  // 朗读按钮
+  // 朗读原文按钮
   const speakBtn = document.createElement('button');
   speakBtn.className = 'toolbar-btn speak-btn';
-  speakBtn.innerHTML = '🔊 朗读';
+  speakBtn.innerHTML = '🔊 朗读原文';
   speakBtn.onclick = handleSpeak;
   
   buttonContainer.appendChild(translateBtn);
@@ -136,7 +136,25 @@ async function handleTranslate() {
     });
     
     if (response.success) {
-      translationResult.innerHTML = `<div class="result-text">${response.translation}</div>`;
+      // 创建结果容器
+      const resultContainer = document.createElement('div');
+      resultContainer.className = 'result-container';
+      
+      // 翻译文本
+      const resultText = document.createElement('div');
+      resultText.className = 'result-text';
+      resultText.textContent = response.translation;
+      
+      // 朗读译文按钮
+      const speakTranslationBtn = document.createElement('button');
+      speakTranslationBtn.className = 'speak-translation-btn';
+      speakTranslationBtn.innerHTML = '🔊 朗读译文';
+      speakTranslationBtn.onclick = () => handleSpeakTranslation(response.translation);
+      
+      resultContainer.appendChild(resultText);
+      resultContainer.appendChild(speakTranslationBtn);
+      translationResult.innerHTML = '';
+      translationResult.appendChild(resultContainer);
     } else {
       translationResult.innerHTML = `<div class="error">${response.error || '翻译失败'}</div>`;
     }
@@ -145,7 +163,7 @@ async function handleTranslate() {
   }
 }
 
-// 处理朗读
+// 处理朗读原文
 function handleSpeak() {
   if (!selectedText) return;
   
@@ -158,6 +176,26 @@ function handleSpeak() {
   // 根据文本语言设置语音
   const textLang = detectLanguage(selectedText);
   utterance.lang = textLang === 'zh' ? 'zh-CN' : 'en-US';
+  utterance.rate = 1.0; // 语速
+  utterance.pitch = 1.0; // 音调
+  utterance.volume = 1.0; // 音量
+  
+  // 开始朗读
+  speechSynthesis.speak(utterance);
+}
+
+// 处理朗读译文
+function handleSpeakTranslation(translatedText) {
+  if (!translatedText) return;
+  
+  // 停止之前的朗读
+  speechSynthesis.cancel();
+  
+  // 创建语音合成实例
+  const utterance = new SpeechSynthesisUtterance(translatedText);
+  
+  // 根据翻译目标语言设置语音
+  utterance.lang = targetLang === 'zh' ? 'zh-CN' : 'en-US';
   utterance.rate = 1.0; // 语速
   utterance.pitch = 1.0; // 音调
   utterance.volume = 1.0; // 音量

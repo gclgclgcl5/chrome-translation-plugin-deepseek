@@ -105,10 +105,41 @@
   color: #333;
 }
 
+/* 结果容器 */
+.result-container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
 /* 结果文本 */
 .result-text {
   word-wrap: break-word;
   white-space: pre-wrap;
+  margin-bottom: 4px;
+}
+
+/* 朗读译文按钮 */
+.speak-translation-btn {
+  padding: 6px 12px;
+  border: none;
+  border-radius: 4px;
+  background: #9C27B0;
+  color: white;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 500;
+  transition: all 0.2s;
+  align-self: flex-start;
+}
+
+.speak-translation-btn:hover {
+  background: #7B1FA2;
+  transform: translateY(-1px);
+}
+
+.speak-translation-btn:active {
+  transform: translateY(0);
 }
 
 /* 加载状态 */
